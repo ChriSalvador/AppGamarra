@@ -17,8 +17,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_ZONA = "t_zona";
 
 
-    public DatabaseHelper(@Nullable Context context) {
-        super(context, DATABASE_NOMBRE, null, DATABASE_VERSION);
+    public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, name, factory, version);
     }
 
     @Override
