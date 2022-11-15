@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.BusquedaFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/linearFondo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="8dp">
+
+            <Button
+                android:id="@+id/btnRegresoBu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Regresar" />
+
+        </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="CONSULTA DE RESULTADOS"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Consulta de Prenda:"
+                android:layout_marginLeft="10dp"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"/>
+
+            <Spinner
+                android:id="@+id/comboPrenda"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </Spinner>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Consulta de Publico:"
+                android:layout_marginLeft="10dp"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"/>
+
+            <Spinner
+                android:id="@+id/comboPublico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </Spinner>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Consulta de Zona:"
+                android:layout_marginLeft="10dp"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"/>
+
+            <Spinner
+                android:id="@+id/comboZona"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </Spinner>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnBuscar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buscar"
+            android:layout_marginLeft="150dp"/>
+
+        <TextView
+            android:id="@+id/separadorId"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/black"/>
+
+        <TextView
+            android:id="@+id/txtSinDatos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text=""/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerTiendasId"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </LinearLayout>
+
+</RelativeLayout>

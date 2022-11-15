@@ -40,9 +40,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "idprenda INTEGER REFERENCES " + TABLE_PRENDA + "(idprenda)," +
                 "idpublico INTENGER REFERENCES " + TABLE_PUBLICO + "(idpublico)," +
                 "idzona INTENGER REFERENCES " + TABLE_ZONA + "(idzona)," +
+                "razonsocial TEXT NOT NULL," +
                 "ruc TEXT NOT NULL," +
-                "nombre TEXT NOT NULL," +
-                "apellido TEXT NOT NULL," +
+                "propietario TEXT NOT NULL," +
                 "direccion TEXT NOT NULL," +
                 "referencia TEXT)");
     }

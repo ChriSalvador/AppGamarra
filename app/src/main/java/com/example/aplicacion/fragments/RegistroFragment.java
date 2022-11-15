@@ -1,35 +1,61 @@
-package com.example.aplicacion;
+package com.example.aplicacion.fragments;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.Activity;
 import android.content.ContentValues;
-import android.content.Intent;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.aplicacion.R;
 import com.example.aplicacion.db.DatabaseHelper;
 import com.example.aplicacion.entidades.Prenda;
 import com.example.aplicacion.entidades.Publico;
-import com.example.aplicacion.entidades.Tienda;
 import com.example.aplicacion.entidades.Zona;
+import com.example.aplicacion.interfaces.IComunicaFragments;
 
 import java.util.ArrayList;
 
-public class RegistroActivity extends AppCompatActivity {
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link RegistroFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class RegistroFragment extends Fragment {
 
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    private InicioFragment.OnFragmentInteractionListener mListener;
+
+    IComunicaFragments interfaceComunicaFragments;
+
+    View vista;
+    Activity actividad;
     Button btnRegresoRegistro, btnRegistrar;
-    EditText ruc,nombres,apellidos,direccion,referencia;
-    Spinner comboPrenda,comboPublico,comboZona;     
+    EditText razonsocial,ruc,propietario,direccion,referencia;
+    Spinner comboPrenda,comboPublico,comboZona;
 
-    ArrayList<String>listaPrendas;
+    ArrayList<String> listaPrendas;
     ArrayList<Prenda> prendasList;
     ArrayList<String>listaPublicos;
     ArrayList<Publico> publicosList;
@@ -38,43 +64,75 @@ public class RegistroActivity extends AppCompatActivity {
 
     DatabaseHelper conn;
 
+    public RegistroFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment RegistroFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static RegistroFragment newInstance(String param1, String param2) {
+        RegistroFragment fragment = new RegistroFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registro);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
 
-        btnRegresoRegistro = findViewById(R.id.btnRegresoRegistro);
-        btnRegresoRegistro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(RegistroActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        vista = inflater.inflate(R.layout.fragment_registro, container, false);
 
-        ruc = (EditText) findViewById(R.id.txtRuc);
-        nombres = (EditText) findViewById(R.id.txtNombres);
-        apellidos = (EditText) findViewById(R.id.txtApellidos);
-        direccion = (EditText) findViewById(R.id.txtDireccion);
-        referencia = (EditText) findViewById(R.id.txtReferencia);
-        comboPrenda = (Spinner) findViewById(R.id.comboPrenda);
-        comboPublico = (Spinner) findViewById(R.id.comboPublico);
-        comboZona = (Spinner) findViewById(R.id.comboZona);
+        btnRegresoRegistro = (Button) vista.findViewById(R.id.btnRegresoReg);
 
-        conn = new DatabaseHelper(getApplicationContext(),"geoapp.db",null,1);
+        razonsocial = (EditText) vista.findViewById(R.id.txtRazon);
+        ruc = (EditText) vista.findViewById(R.id.txtRuc);
+        propietario = (EditText) vista.findViewById(R.id.txtPropietario);
+        direccion = (EditText) vista.findViewById(R.id.txtDireccion);
+        referencia = (EditText) vista.findViewById(R.id.txtReferencia);
+        comboPrenda = (Spinner) vista.findViewById(R.id.comboPrenda);
+        comboPublico = (Spinner) vista.findViewById(R.id.comboPublico);
+        comboZona = (Spinner) vista.findViewById(R.id.comboZona);
+
+        conn = new DatabaseHelper(actividad,"geo_gamarra.db",null,1);
 
         consultarListaPrendas();
         consultarListaPublicos();
         consultarListaZonas();
 
-        ArrayAdapter<CharSequence> adaptadorPrenda = new ArrayAdapter(this, android.R.layout.simple_spinner_item,listaPrendas);
+        ArrayAdapter<CharSequence> adaptadorPrenda = new ArrayAdapter(actividad, android.R.layout.simple_spinner_item,listaPrendas);
         comboPrenda.setAdapter(adaptadorPrenda);
-        ArrayAdapter<CharSequence> adaptadorPublico = new ArrayAdapter(this, android.R.layout.simple_spinner_item,listaPublicos);
+        ArrayAdapter<CharSequence> adaptadorPublico = new ArrayAdapter(actividad, android.R.layout.simple_spinner_item,listaPublicos);
         comboPublico.setAdapter(adaptadorPublico);
-        ArrayAdapter<CharSequence> adaptadorZona = new ArrayAdapter(this, android.R.layout.simple_spinner_item,listaZonas);
+        ArrayAdapter<CharSequence> adaptadorZona = new ArrayAdapter(actividad, android.R.layout.simple_spinner_item,listaZonas);
         comboZona.setAdapter(adaptadorZona);
 
-        btnRegistrar = findViewById(R.id.btnRegistrar);
+        btnRegresoRegistro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                interfaceComunicaFragments.mostrarMenu();
+            }
+        });
+
+        btnRegistrar = vista.findViewById(R.id.btnRegistrar);
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,6 +141,8 @@ public class RegistroActivity extends AppCompatActivity {
                 }
             }
         });
+
+        return vista;
     }
 
     private void consultarListaPrendas() {
@@ -157,9 +217,9 @@ public class RegistroActivity extends AppCompatActivity {
     private void registrarTienda() {
         SQLiteDatabase db = conn.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put("razonsocial", razonsocial.getText().toString());
         values.put("ruc", ruc.getText().toString());
-        values.put("nombre", nombres.getText().toString());
-        values.put("apellido", apellidos.getText().toString());
+        values.put("propietario", propietario.getText().toString());
         values.put("direccion", direccion.getText().toString());
         values.put("referencia", referencia.getText().toString());
 
@@ -182,10 +242,29 @@ public class RegistroActivity extends AppCompatActivity {
 
             db.insert(DatabaseHelper.TABLE_TIENDA,"idtienda", values);
 
-            Toast.makeText(getApplicationContext(), "Tienda Registrada con Exito!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(actividad, "Tienda Registrada con Exito!", Toast.LENGTH_SHORT).show();
             db.close();
         } else {
-            Toast.makeText(getApplicationContext(), "Debe seleccionar una opcion de cada lista desplegable", Toast.LENGTH_SHORT).show();
+            Toast.makeText(actividad, "Debe seleccionar una opcion de cada lista desplegable", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof Activity) {
+            this.actividad=(Activity) context;
+            interfaceComunicaFragments= (IComunicaFragments) this.actividad;
+        }
+        if (context instanceof InicioFragment.OnFragmentInteractionListener) {
+            mListener = (InicioFragment.OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(Uri uri);
     }
 }

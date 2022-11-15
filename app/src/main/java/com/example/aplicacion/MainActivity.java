@@ -1,60 +1,57 @@
 package com.example.aplicacion;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.example.aplicacion.db.DatabaseHelper;
+import com.example.aplicacion.fragments.BusquedaFragment;
+import com.example.aplicacion.fragments.InicioFragment;
+import com.example.aplicacion.fragments.RegistroFragment;
+import com.example.aplicacion.interfaces.IComunicaFragments;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IComunicaFragments, InicioFragment.OnFragmentInteractionListener, RegistroFragment.OnFragmentInteractionListener,
+                                                                BusquedaFragment.OnFragmentInteractionListener {
 
-    Button btnRegistro;
-    Button btnBusqueda;
-    Button btnCrear;
+    Fragment fragmentInicio, registroFragment, busquedaFragment;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnRegistro = findViewById(R.id.btnRegistro);
-        btnRegistro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, RegistroActivity.class);
-                startActivity(intent);
-            }
-        });
+        fragmentInicio = new InicioFragment();
+        registroFragment = new RegistroFragment();
+        busquedaFragment = new BusquedaFragment();
 
-        btnBusqueda = findViewById(R.id.btnBusqueda);
-        btnBusqueda.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, BusquedaActivity.class);
-                startActivity(intent);
-            }
-        });
+        getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragments,fragmentInicio).commit();
 
-        /* PRUEBA DE BOTON PARA CREAR LA BASE DE DATOS
-        btnCrear = findViewById(R.id.btnCrearBD);
-        btnCrear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatabaseHelper dbHelper = new DatabaseHelper(MainActivity.this);
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-                if(db != null){
-                    Toast.makeText(MainActivity.this, "BASE DE DATOS CREADA", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(MainActivity.this, "ERROR AL CREAR BASE DE DATOS", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-        */
     }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void mostrarMenu() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragments,fragmentInicio).commit();
+    }
+
+    @Override
+    public void registrarTienda() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragments,registroFragment).commit();
+    }
+
+    @Override
+    public void consultarTienda() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragments,busquedaFragment).commit();
+    }
+
 }
