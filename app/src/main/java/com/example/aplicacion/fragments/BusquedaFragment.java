@@ -99,35 +99,7 @@ public class BusquedaFragment extends Fragment {
         comboZona = vista.findViewById(R.id.comboZona);
         txtMensaje = vista.findViewById(R.id.txtSinDatos);
 
-        ArrayList<String> listaPrenda = new ArrayList<>();
-        listaPrenda.add("Todos");
-        listaPrenda.add("Polos");
-        listaPrenda.add("Casacas");
-        listaPrenda.add("Camisas");
-        listaPrenda.add("Poleras");
-        listaPrenda.add("Jeans");
-        listaPrenda.add("Shorts");
-
-        ArrayList<String> listaPublico = new ArrayList<>();
-        listaPublico.add("Todos");
-        listaPublico.add("Hombres");
-        listaPublico.add("Mujeres");
-        listaPublico.add("Niños");
-        listaPublico.add("Niñas");
-
-        ArrayList<String> listaZona = new ArrayList<>();
-        listaZona.add("Todos");
-        listaZona.add("Norte");
-        listaZona.add("Sur");
-        listaZona.add("Este");
-        listaZona.add("Oeste");
-
-        ArrayAdapter<CharSequence> adapterPrenda = new ArrayAdapter(actividad, android.R.layout.simple_spinner_item, listaPrenda);
-        comboPrenda.setAdapter(adapterPrenda);
-        ArrayAdapter<CharSequence> adapterPublico = new ArrayAdapter(actividad, android.R.layout.simple_spinner_item, listaPublico);
-        comboPublico.setAdapter(adapterPublico);
-        ArrayAdapter<CharSequence> adapterZona = new ArrayAdapter(actividad, android.R.layout.simple_spinner_item, listaZona);
-        comboZona.setAdapter(adapterZona);
+        llenarListas();
 
         recyclerTiendas = vista.findViewById(R.id.recyclerTiendasId);
         recyclerTiendas.setLayoutManager(new LinearLayoutManager(this.actividad));
@@ -180,7 +152,7 @@ public class BusquedaFragment extends Fragment {
                                 "FROM " + DatabaseHelper.TABLE_TIENDA + " t," + DatabaseHelper.TABLE_PRENDA + " p," +
                                 DatabaseHelper.TABLE_PUBLICO + " pu," + DatabaseHelper.TABLE_ZONA + " z " +
                                 "WHERE t.idprenda=p.idprenda and t.idpublico=pu.idpublico and t.idzona=z.idzona " +
-                                "and pu.descripcion='"+tipoPublico+"' and z.nombrezona='"+tipoZona+"'";
+                                "and pu.descripcion='"+tipoPublico+"' and z.nombr ezona='"+tipoZona+"'";
                     }
                 } else {
                     if (tipoPublico.equalsIgnoreCase("Todos") && tipoZona.equalsIgnoreCase("Todos")) {
@@ -249,6 +221,38 @@ public class BusquedaFragment extends Fragment {
     private void llenarAdaptadorTiendas() {
         AdaptadorResultados adaptadorResultados = new AdaptadorResultados(listaResultados);
         recyclerTiendas.setAdapter(adaptadorResultados);
+    }
+
+    public void llenarListas() {
+        ArrayList<String> listaPrenda = new ArrayList<>();
+        listaPrenda.add("Todos");
+        listaPrenda.add("Polos");
+        listaPrenda.add("Casacas");
+        listaPrenda.add("Camisas");
+        listaPrenda.add("Poleras");
+        listaPrenda.add("Jeans");
+        listaPrenda.add("Shorts");
+
+        ArrayList<String> listaPublico = new ArrayList<>();
+        listaPublico.add("Todos");
+        listaPublico.add("Hombres");
+        listaPublico.add("Mujeres");
+        listaPublico.add("Niños");
+        listaPublico.add("Niñas");
+
+        ArrayList<String> listaZona = new ArrayList<>();
+        listaZona.add("Todos");
+        listaZona.add("Norte");
+        listaZona.add("Sur");
+        listaZona.add("Este");
+        listaZona.add("Oeste");
+
+        ArrayAdapter<CharSequence> adapterPrenda = new ArrayAdapter(actividad, android.R.layout.simple_spinner_item, listaPrenda);
+        comboPrenda.setAdapter(adapterPrenda);
+        ArrayAdapter<CharSequence> adapterPublico = new ArrayAdapter(actividad, android.R.layout.simple_spinner_item, listaPublico);
+        comboPublico.setAdapter(adapterPublico);
+        ArrayAdapter<CharSequence> adapterZona = new ArrayAdapter(actividad, android.R.layout.simple_spinner_item, listaZona);
+        comboZona.setAdapter(adapterZona);
     }
 
     @Override

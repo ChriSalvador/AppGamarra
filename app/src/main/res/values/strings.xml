@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Nombre Elegante de la Aplicacion</string>
+    <string name="app_name">GeoGamarra</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

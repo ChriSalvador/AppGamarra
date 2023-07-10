@@ -10,28 +10,32 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/fondo">
 
         <RelativeLayout
             android:id="@+id/linearFondo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="8dp">
+            android:elevation="8dp"
+            android:background="@color/teal_700">
 
             <Button
                 android:id="@+id/btnRegresoBu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Regresar" />
+                android:text="Regresar"
+                android:backgroundTint="#039BE5"/>
 
         </RelativeLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:text="CONSULTA DE RESULTADOS"
+            android:text="BUSQUEDA DE TIENDAS"
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -104,7 +108,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Buscar"
-            android:layout_marginLeft="150dp"/>
+            android:layout_gravity="center"
+            android:backgroundTint="#039BE5"/>
 
         <TextView
             android:id="@+id/separadorId"

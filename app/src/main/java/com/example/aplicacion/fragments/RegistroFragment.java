@@ -18,14 +18,25 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.aplicacion.R;
 import com.example.aplicacion.db.DatabaseHelper;
 import com.example.aplicacion.entidades.Prenda;
 import com.example.aplicacion.entidades.Publico;
 import com.example.aplicacion.entidades.Zona;
 import com.example.aplicacion.interfaces.IComunicaFragments;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -51,8 +62,9 @@ public class RegistroFragment extends Fragment {
 
     View vista;
     Activity actividad;
-    Button btnRegresoRegistro, btnRegistrar;
-    EditText razonsocial,ruc,propietario,direccion,referencia;
+    Button btnRegresoRegistro, btnRegistrar, btnBuscaRuc;
+    EditText razonsocial,ruc,direccion,referencia;
+    TextView propietario;
     Spinner comboPrenda,comboPublico,comboZona;
 
     ArrayList<String> listaPrendas;
@@ -63,6 +75,9 @@ public class RegistroFragment extends Fragment {
     ArrayList<Zona> zonasList;
 
     DatabaseHelper conn;
+
+    RequestQueue requestQueue;
+    String api_principal = "https://api.apis.net.pe/v1/ruc?numero=";
 
     public RegistroFragment() {
         // Required empty public constructor
@@ -105,7 +120,7 @@ public class RegistroFragment extends Fragment {
 
         razonsocial = (EditText) vista.findViewById(R.id.txtRazon);
         ruc = (EditText) vista.findViewById(R.id.txtRuc);
-        propietario = (EditText) vista.findViewById(R.id.txtPropietario);
+        propietario = (TextView) vista.findViewById(R.id.txtPropietario);
         direccion = (EditText) vista.findViewById(R.id.txtDireccion);
         referencia = (EditText) vista.findViewById(R.id.txtReferencia);
         comboPrenda = (Spinner) vista.findViewById(R.id.comboPrenda);
@@ -138,6 +153,37 @@ public class RegistroFragment extends Fragment {
             public void onClick(View view) {
                 switch (view.getId()) {
                     case R.id.btnRegistrar: registrarTienda();
+                }
+            }
+        });
+
+        btnBuscaRuc = vista.findViewById(R.id.btnBuscaRuc);
+        btnBuscaRuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ruc.getText().length() == 11) {
+                    requestQueue = Volley.newRequestQueue(actividad);
+                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, api_principal + ruc.getText(), null,
+                        new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                String raz_soc = response.getString("nombre");
+                                propietario.setText(raz_soc);
+                            } catch (JSONException e) {
+                                Log.i("error", e.toString());
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.i("error", error.toString());
+                        }
+                    });
+                    request.setRetryPolicy(new DefaultRetryPolicy(1500, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                    requestQueue.add(request);
+                } else {
+                    Toast.makeText(actividad, "N° de RUC no valido!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -248,6 +294,7 @@ public class RegistroFragment extends Fragment {
             Toast.makeText(actividad, "Debe seleccionar una opcion de cada lista desplegable", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     @Override
     public void onAttach(Context context) {

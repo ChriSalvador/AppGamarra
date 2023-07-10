@@ -113,7 +113,7 @@ public class InicioFragment extends Fragment {
             }
         });
          */
-
+        // DESCOMENTAR LO ANTERIOR PARA CREAR LA BASE DE DATOS, LUEGO DE ESTAR CREADA VOLVER A COMENTAR Y AGREGAR android:visibility="invisible" AL BOTON CREAD BD en fragment_inicio.xml
         return vista;
     }
 
